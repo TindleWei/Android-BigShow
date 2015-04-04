@@ -340,8 +340,6 @@ public class EditActivity extends BaseActivity {
 
 		headerLayout.addView(et_question);
 
-		
-
 		mListView = new ListView(mContext);
 		r_lp = new RelativeLayout.LayoutParams(-1, -1);
 		r_lp.addRule(RelativeLayout.ABOVE, footerBtn.getId());

@@ -7,7 +7,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-@Table(name = "Story")
+@Table(name = "Storys")
 public class Story extends Model implements Serializable{
 
 	private static final long serialVersionUID = 211861241939739402L;
@@ -56,9 +56,8 @@ public class Story extends Model implements Serializable{
 	public String hotScore;
 	
 	public List<Slot> slots(){
-		return getMany(Slot.class, "Slot");
+		return getMany(Slot.class, "fromStory");
 	}
-	
-	
+
 	
 }

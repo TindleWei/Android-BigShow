@@ -1,12 +1,13 @@
 package com.ml.bigshow.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
-@Table(name = "Slot")
+@Table(name = "Slots")
 public class Slot extends Model implements Serializable {
 
 	private static final long serialVersionUID = 8486707988115480549L;
@@ -42,19 +43,11 @@ public class Slot extends Model implements Serializable {
 	@Column(name = "question")
 	public String question;
 
-	@Column(name = "endIdA")
-	public String endIdA;
-
-	@Column(name = "endIdB")
-	public String endIdB;
-
-	@Column(name = "endIdC")
-	public String endIdC;
-
-	@Column(name = "endIdD")
-	public String endIdD;
-
 	@Column(name = "fromStory")
 	public Story fromStory;
+	
+	public List<End> ends(){
+		return getMany(End.class, "fromSlot");
+	}
 
 }
