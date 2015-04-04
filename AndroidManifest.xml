@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ml.bigshow"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:name=".BaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.ml.bigshow.ui.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.ml.bigshow.ui.GameActivity" />
+        <activity android:name="com.ml.bigshow.ui.GameNextActivity" />
+        <activity android:name="com.ml.bigshow.ui.FindListActivity" />
+        <activity android:name="com.ml.bigshow.ui.EndActivity" />
+        <activity android:name="com.ml.bigshow.ui.EditActivity" />
+        <activity android:name="com.ml.bigshow.ui.SlotListActivity" />
+        <activity android:name="com.ml.bigshow.ui.SlotMyActivity" />
+        <activity android:name="com.ml.bigshow.ui.clippic.ClipPictureActivity" />
+
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="bigshow.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="5" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="com.ml.bigshow.entity.Slot, com.ml.bigshow.entity.Story,
+            com.ml.bigshow.entity.End" />
+    </application>
+
+</manifest>

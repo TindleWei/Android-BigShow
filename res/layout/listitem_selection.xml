@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ccc"
+    android:orientation="horizontal"
+    android:padding="16dp" >
+
+    <RelativeLayout
+        android:id="@+id/rlayout_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:minHeight="60dp" >
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="A."
+            android:textSize="34sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlayout_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true" >
+
+        <TextView
+            android:id="@+id/tv_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:background="#1e90ff"
+            android:text="End"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlayout_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/rlayout_right"
+        android:layout_toRightOf="@id/rlayout_left"
+        android:layout_centerVertical="true"
+        android:padding="8dp" >
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:maxLines="2"
+            android:text="eowiehohjsdsfkljnzxcnhsdofhjwoirpoqiweoirsdfasfd???"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
