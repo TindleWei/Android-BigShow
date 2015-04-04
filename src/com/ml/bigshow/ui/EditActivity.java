@@ -19,10 +19,12 @@ import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
 
@@ -118,7 +120,7 @@ public class EditActivity extends BaseActivity {
 		mPagerAdapter.notifyDataSetChanged();
 
 		contentIv.setOnClickListener(myClick);
-		
+
 		addBtn.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -131,6 +133,19 @@ public class EditActivity extends BaseActivity {
 
 			}
 		});
+
+		// contentTv.setOnFocusChangeListener(new android.view.View.
+		// OnFocusChangeListener() {
+		// @Override
+		// public void onFocusChange(View v, boolean hasFocus) {
+		// if (hasFocus) {
+		// contentIv.setVisibility(View.GONE);
+		// } else {
+		// // 此处为失去焦点时的处理内容
+		// contentIv.setVisibility(View.VISIBLE);
+		// }
+		// }
+		// });
 
 	}
 
@@ -179,6 +194,9 @@ public class EditActivity extends BaseActivity {
 				-1, -1);
 		layout_outer.setLayoutParams(out_lp);
 
+		layout_outer.setFocusable(true);
+		layout_outer.setFocusableInTouchMode(true);
+
 		RelativeLayout rlayout_1 = new RelativeLayout(mContext);
 		RelativeLayout.LayoutParams rl_lp = new RelativeLayout.LayoutParams(-2,
 				-2);
@@ -224,45 +242,52 @@ public class EditActivity extends BaseActivity {
 
 		int id_1 = 32901;
 
+		ScrollView scroll = new ScrollView(mContext);
+
 		RelativeLayout layout_outer = new RelativeLayout(mContext);
-		RelativeLayout.LayoutParams out_lp = new RelativeLayout.LayoutParams(
+		FrameLayout.LayoutParams out_lp = new FrameLayout.LayoutParams(
 				-1, -1);
+		out_lp.gravity = Gravity.CENTER;
 		layout_outer.setLayoutParams(out_lp);
+		layout_outer.setFocusable(true);
+		layout_outer.setFocusableInTouchMode(true);
 
 		RelativeLayout rlayout_2 = new RelativeLayout(mContext);
 		RelativeLayout.LayoutParams rl_lp2 = new RelativeLayout.LayoutParams(
 				-2, -2);
 		rl_lp2.addRule(RelativeLayout.CENTER_IN_PARENT);
-		rlayout_2.setPadding(0, 0, 0, dp2px(80));
+		rlayout_2.setPadding(0, 0, 0, dp2px(0));
 		rlayout_2.setLayoutParams(rl_lp2);
 		rlayout_2.setBackgroundColor(Color.YELLOW);
-
-		EditText tv_content = new EditText(mContext);
-		rl_lp2 = new RelativeLayout.LayoutParams(-2, -2);
-		rl_lp2.setMargins(dp2px(16), 0, 0, 0);
-
-		tv_content.setLayoutParams(rl_lp2);
-		tv_content.setId(id_1);
-		tv_content.setHint("故事的内容");
-		tv_content.setMaxLines(5);
-		tv_content.setTextSize(dp2px(18));
-		rlayout_2.addView(tv_content);
 
 		ImageView iv_story = new ImageView(mContext);
 		rl_lp2 = new RelativeLayout.LayoutParams(mWidth - dp2px(32), mWidth
 				- dp2px(32));
-		rl_lp2.addRule(RelativeLayout.BELOW, tv_content.getId());
 		iv_story.setLayoutParams(rl_lp2);
+		iv_story.setId(id_1);
 		iv_story.setBackgroundColor(Color.GRAY);
 		rlayout_2.addView(iv_story);
 
+		EditText tv_content = new EditText(mContext);
+		rl_lp2 = new RelativeLayout.LayoutParams(-2, -2);
+		rl_lp2.setMargins(dp2px(16), 0, 0, 0);
+		rl_lp2.addRule(RelativeLayout.BELOW, iv_story.getId());
+
+		tv_content.setLayoutParams(rl_lp2);
+		tv_content.setHint("故事的内容");
+		tv_content.setMaxLines(5);
+		tv_content.setTextSize(dp2px(18));
 		layout_outer.addView(rlayout_2);
+
+		rlayout_2.addView(tv_content);
 
 		// outlet
 		contentTv = tv_content;
 		contentIv = iv_story;
+		
+		scroll.addView(layout_outer);
 
-		return layout_outer;
+		return scroll;
 	}
 
 	SelectionListAdapter selectionAdapter;
@@ -272,11 +297,30 @@ public class EditActivity extends BaseActivity {
 	ViewGroup page3;
 
 	public View getThirdPage() {
+		
+		int id_1 = 32901;
 
 		RelativeLayout layout_outer = new RelativeLayout(mContext);
 		RelativeLayout.LayoutParams r_lp = new RelativeLayout.LayoutParams(-1,
 				-1);
 		layout_outer.setLayoutParams(r_lp);
+		
+		//
+		// bottomView
+		//
+		Button footerBtn = new Button(mContext);
+		r_lp = new RelativeLayout.LayoutParams(-1, -2);
+		r_lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		footerBtn.setId(id_1);
+		footerBtn.setMinimumHeight(dp2px(60));
+		footerBtn.setPadding(dp2px(16), dp2px(8), dp2px(16), dp2px(8));
+		footerBtn.setLayoutParams(r_lp);
+		footerBtn.setText("+");
+		footerBtn.setTextSize(20);
+		footerBtn.setTextColor(Color.WHITE);
+		footerBtn.setBackgroundColor(Color.RED);
+		
+		layout_outer.addView(footerBtn);
 
 		AbsListView.LayoutParams vg_lp = new AbsListView.LayoutParams(-1, -2);
 		//
@@ -296,24 +340,14 @@ public class EditActivity extends BaseActivity {
 
 		headerLayout.addView(et_question);
 
-		//
-		// footerView
-		//
-		Button footerBtn = new Button(mContext);
-		vg_lp = new AbsListView.LayoutParams(-1, -2);
-		footerBtn.setMinimumHeight(dp2px(60));
-		footerBtn.setPadding(dp2px(16), dp2px(8), dp2px(16), dp2px(8));
-		footerBtn.setLayoutParams(vg_lp);
-		footerBtn.setText("+");
-		footerBtn.setTextSize(20);
-		footerBtn.setTextColor(Color.WHITE);
-		footerBtn.setBackgroundColor(Color.RED);
+		
 
 		mListView = new ListView(mContext);
-		r_lp = new RelativeLayout.LayoutParams(-1, -2);
+		r_lp = new RelativeLayout.LayoutParams(-1, -1);
+		r_lp.addRule(RelativeLayout.ABOVE, footerBtn.getId());
+		r_lp.setMargins(0, 0, 0, dp2px(16));
 		mListView.setLayoutParams(r_lp);
 		mListView.addHeaderView(headerLayout);
-		mListView.addFooterView(footerBtn);
 
 		mData = new ArrayList<String>();
 		mData.add("0");
@@ -326,8 +360,6 @@ public class EditActivity extends BaseActivity {
 		// outlet
 		addBtn = footerBtn;
 		page3 = layout_outer;
-
-		
 
 		// scroll_view.requestLayout();
 		// scroll_view.postInvalidate();

@@ -2,62 +2,79 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ccc"
-    android:orientation="horizontal"
-    android:padding="16dp" >
+    android:orientation="horizontal" >
 
     <RelativeLayout
-        android:id="@+id/rlayout_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:minHeight="60dp" >
-
-        <TextView
-            android:id="@+id/tv_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="A."
-            android:textSize="34sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rlayout_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true" >
-
-        <TextView
-            android:id="@+id/tv_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:background="#1e90ff"
-            android:text="End"
-            android:textSize="16sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rlayout_middle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/rlayout_right"
-        android:layout_toRightOf="@id/rlayout_left"
-        android:layout_centerVertical="true"
-        android:padding="8dp" >
+        android:layout_margin="16dp"
+        android:background="#ccc"
+        android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/tv_content"
+        <RelativeLayout
+            android:id="@+id/rlayout_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:maxLines="2"
-            android:text="eowiehohjsdsfkljnzxcnhsdofhjwoirpoqiweoirsdfasfd???"
-            android:textSize="14sp" />
+            android:layout_marginLeft="8dp"
+            android:minHeight="60dp" >
+
+            <TextView
+                android:id="@+id/tv_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="A."
+                android:textSize="34sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlayout_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" >
+
+            <TextView
+                android:id="@+id/tv_end"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:minHeight="60dp"
+                android:text=""
+                android:textColor="#1e90ff"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlayout_middle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/rlayout_right"
+            android:layout_toRightOf="@id/rlayout_left"
+            android:padding="8dp" >
+
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:hint="Input your result"
+                android:maxLines="2"
+                android:textSize="14sp" />
+        </RelativeLayout>
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:padding="5dp"
+        android:src="@drawable/ic_delete" />
 
 </RelativeLayout>

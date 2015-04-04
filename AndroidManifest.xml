@@ -34,7 +34,8 @@
         <activity android:name="com.ml.bigshow.ui.GameNextActivity" />
         <activity android:name="com.ml.bigshow.ui.FindListActivity" />
         <activity android:name="com.ml.bigshow.ui.EndActivity" />
-        <activity android:name="com.ml.bigshow.ui.EditActivity" />
+        <activity android:name="com.ml.bigshow.ui.EditActivity" 
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity android:name="com.ml.bigshow.ui.SlotListActivity" />
         <activity android:name="com.ml.bigshow.ui.SlotMyActivity" />
         <activity android:name="com.ml.bigshow.ui.clippic.ClipPictureActivity" />
