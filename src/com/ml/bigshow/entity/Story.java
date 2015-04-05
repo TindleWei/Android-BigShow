@@ -49,8 +49,8 @@ public class Story extends Model implements Serializable{
 	@Column(name = "uAvatar")
 	public String uAvatar; // user avatar;
 	
-	@Column(name = "status")
-	public String status; //是否 已更新 或者还未上传
+	@Column(name = "status") 
+	public String status; //-1未完成 0已经完成，未上传  1已上传
 	
 	@Column(name = "hotScore")
 	public String hotScore;

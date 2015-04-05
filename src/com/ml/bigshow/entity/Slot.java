@@ -31,8 +31,8 @@ public class Slot extends Model implements Serializable {
 
 	// } AVOS特有的
 	
-	@Column(name = "sid")
-	public String sid; // story id
+	@Column(name = "order")
+	public String order;
 
 	@Column(name = "content")
 	public String content;

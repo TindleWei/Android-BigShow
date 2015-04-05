@@ -31,11 +31,23 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.avos.avoscloud.PostHttpResponseHandler;
 import com.ml.bigshow.BaseActivity;
 import com.ml.bigshow.R;
+import com.ml.bigshow.entity.End;
+import com.ml.bigshow.entity.Slot;
+import com.ml.bigshow.entity.Story;
+import com.ml.bigshow.service.ImageUtils;
+import com.ml.bigshow.service.LeanAsyncTask;
+import com.ml.bigshow.service.PicassoService;
 import com.ml.bigshow.ui.adapter.SelectionListAdapter;
 import com.ml.bigshow.ui.clippic.ClipPictureActivity;
 import com.ml.bigshow.view.ElasticScrollView;
 
 public class EditActivity extends BaseActivity {
+	
+	//Data Part
+	public Story story = new Story();
+	public Slot slot = new Slot();
+	public List<End> endList = new ArrayList<End>(); 
+	
 
 	private ViewPager view_pager;
 	private List<View> mPagers;
@@ -50,14 +62,68 @@ public class EditActivity extends BaseActivity {
 	EditText contentTv;
 	ImageView contentIv;
 	EditText questionTv;
+	
+	public String order;
+	
+	boolean isStoryChanged = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit);
+		
+		
+		//如果存在，传入Story
+		story = (Story) getIntent().getSerializableExtra("Story");
+		order = (String)getIntent().getStringExtra("order");
 
 		initViews();
 		initData();
+	}
+	
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+		new LeanAsyncTask(mContext) {
+
+			@Override
+			protected void doInBack() throws Exception {
+				
+				if(story==null){
+					//新建Story
+					story.title = titleTv.getText().toString().trim();
+					story.cName = nameTv.getText().toString().trim();
+					story.cAvatar = ImageUtils.saveDrawable2Data(avatarIv.getDrawable());
+					//story.uid
+					//story.uName
+					//story.uAvatar
+					//story.status
+					//story.hotScore
+				}
+				
+				if(isStoryChanged){
+					//更新Story
+				}
+				
+				//在这里面存数据
+				slot.order = order;
+				slot.content = contentTv.getText().toString().trim();
+				//得到图片的路径
+				slot.photo = ImageUtils.saveDrawable2Data(contentIv.getDrawable());
+				slot.question =  questionTv.getText().toString().trim();
+				slot.fromStory = story;
+				slot.save();	
+			}
+
+			@Override
+			protected void onPost(Exception e) {
+				
+			}
+		};
+		
+		
 	}
 
 	private void initViews() {
@@ -133,19 +199,12 @@ public class EditActivity extends BaseActivity {
 
 			}
 		});
-
-		// contentTv.setOnFocusChangeListener(new android.view.View.
-		// OnFocusChangeListener() {
-		// @Override
-		// public void onFocusChange(View v, boolean hasFocus) {
-		// if (hasFocus) {
-		// contentIv.setVisibility(View.GONE);
-		// } else {
-		// // 此处为失去焦点时的处理内容
-		// contentIv.setVisibility(View.VISIBLE);
-		// }
-		// }
-		// });
+		
+		if(story!=null){
+			titleTv.setText(story.title);
+			nameTv.setText(story.cName);
+			PicassoService.setSquarePhoto(story.cAvatar, avatarIv);
+		}
 
 	}
 
