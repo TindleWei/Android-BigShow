@@ -15,22 +15,18 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.RelativeLayout.LayoutParams;
 
-import com.avos.avoscloud.PostHttpResponseHandler;
 import com.ml.bigshow.BaseActivity;
 import com.ml.bigshow.R;
+import com.ml.bigshow.cc.ViewHolder;
 import com.ml.bigshow.entity.End;
 import com.ml.bigshow.entity.Slot;
 import com.ml.bigshow.entity.Story;
@@ -39,25 +35,29 @@ import com.ml.bigshow.service.LeanAsyncTask;
 import com.ml.bigshow.service.PicassoService;
 import com.ml.bigshow.ui.adapter.SelectionListAdapter;
 import com.ml.bigshow.ui.clippic.ClipPictureActivity;
-import com.ml.bigshow.view.ElasticScrollView;
 
 public class EditActivity extends BaseActivity {
+	
+	ViewHolder firstHolder;
+	ViewHolder secondHolder;
+	ViewHolder thirdHolder;
 
 	// Data Part
 	public Story story;
 	public Slot slot;
-	public List<End> endList;
+	//偷懒，做成全局的, Adapter调用
+	public static List<End> endList;
 
 	private ViewPager view_pager;
 	private List<View> mPagers;
 	private PagerAdapter mPagerAdapter;
-	private int choosenItem = 0;
+	private int choosenPosition = 0;
 
 	private static final int INTENT_REQUEST_CODE_ALBUM = 21;
 
-	EditText titleTv;
-	EditText nameTv;
-	ImageView avatarIv;
+//	EditText titleTv;
+//	EditText nameTv;
+//	ImageView avatarIv;
 	EditText contentTv;
 	ImageView contentIv;
 	EditText questionTv;
@@ -100,9 +100,9 @@ public class EditActivity extends BaseActivity {
 				if (story == null) {
 					// 新建Story
 					story = new Story();
-					story.title = titleTv.getText().toString().trim();
-					story.cName = nameTv.getText().toString().trim();
-					story.cAvatar = ImageUtils.saveDrawable2Data(avatarIv
+					story.title = firstHolder.textView(0).getText().toString().trim();
+					story.cName = firstHolder.textView(1).getText().toString().trim();
+					story.cAvatar = ImageUtils.saveDrawable2Data(firstHolder.imageView(0)
 							.getDrawable());
 					// story.uid
 					// story.uName
@@ -114,9 +114,9 @@ public class EditActivity extends BaseActivity {
 
 				if (isStoryChanged) {
 					// 更新Story
-					story.title = titleTv.getText().toString().trim();
-					story.cName = nameTv.getText().toString().trim();
-					story.cAvatar = ImageUtils.saveDrawable2Data(avatarIv
+					story.title = firstHolder.textView(0).getText().toString().trim();
+					story.cName = firstHolder.textView(1).getText().toString().trim();
+					story.cAvatar = ImageUtils.saveDrawable2Data(firstHolder.imageView(0)
 							.getDrawable());
 					// story.uid
 					// story.uName
@@ -190,7 +190,7 @@ public class EditActivity extends BaseActivity {
 
 			@Override
 			public void onPageSelected(int position) {
-				choosenItem = position;
+				choosenPosition = position;
 			}
 
 			@Override
@@ -208,8 +208,11 @@ public class EditActivity extends BaseActivity {
 	}
 
 	private void initData() {
-
-		mPagers.add(getFirstPage());
+		firstHolder = new ViewHolder();
+		secondHolder = new ViewHolder();
+		thirdHolder = new ViewHolder();
+		
+		mPagers.add(EditViewHolder.getFirstPage(mContext, firstHolder));
 		mPagers.add(getSecondPage());
 		mPagers.add(getThirdPage());
 
@@ -231,9 +234,9 @@ public class EditActivity extends BaseActivity {
 		});
 
 		if (story != null) {
-			titleTv.setText(story.title);
-			nameTv.setText(story.cName);
-			PicassoService.setSquarePhoto(story.cAvatar, avatarIv);
+			firstHolder.textView(0).setText(story.title);
+			firstHolder.textView(1).setText(story.cName);
+			PicassoService.setSquarePhoto(story.cAvatar, firstHolder.imageView(0));
 
 		}
 
@@ -274,59 +277,7 @@ public class EditActivity extends BaseActivity {
 
 	};
 
-	public View getFirstPage() {
-
-		int id_1 = 32901;
-		int id_2 = 32902;
-
-		RelativeLayout layout_outer = new RelativeLayout(mContext);
-		RelativeLayout.LayoutParams out_lp = new RelativeLayout.LayoutParams(
-				-1, -1);
-		layout_outer.setLayoutParams(out_lp);
-
-		layout_outer.setFocusable(true);
-		layout_outer.setFocusableInTouchMode(true);
-
-		RelativeLayout rlayout_1 = new RelativeLayout(mContext);
-		RelativeLayout.LayoutParams rl_lp = new RelativeLayout.LayoutParams(-2,
-				-2);
-		rl_lp.addRule(RelativeLayout.CENTER_IN_PARENT);
-		rlayout_1.setPadding(0, 0, 0, dp2px(80));
-		rlayout_1.setLayoutParams(rl_lp);
-		rlayout_1.setBackgroundColor(Color.WHITE);
-
-		EditText tv_title = new EditText(mContext);
-		tv_title.setId(id_1);
-		tv_title.setHint("标题");
-		tv_title.setTextSize(dp2px(18));
-		rlayout_1.addView(tv_title);
-
-		ImageView iv_charactar = new ImageView(mContext);
-		rl_lp = new RelativeLayout.LayoutParams(dp2px(80), dp2px(80));
-		rl_lp.addRule(RelativeLayout.BELOW, tv_title.getId());
-		iv_charactar.setId(id_2);
-		iv_charactar.setLayoutParams(rl_lp);
-		iv_charactar.setImageResource(R.drawable.ic_chara);
-		// iv_charactar.setBackgroundColor(Color.GRAY);
-		rlayout_1.addView(iv_charactar);
-
-		EditText tv_charactar = new EditText(mContext);
-		rl_lp = new RelativeLayout.LayoutParams(-2, -2);
-		rl_lp.addRule(RelativeLayout.ALIGN_BOTTOM, iv_charactar.getId());
-		rl_lp.addRule(RelativeLayout.RIGHT_OF, iv_charactar.getId());
-		tv_charactar.setHint("名字");
-		tv_charactar.setTextSize(dp2px(14));
-		rl_lp.setMargins(dp2px(16), 0, 0, 0);
-		tv_charactar.setLayoutParams(rl_lp);
-		rlayout_1.addView(tv_charactar);
-
-		layout_outer.addView(rlayout_1);
-
-		titleTv = tv_title;
-		nameTv = tv_charactar;
-
-		return layout_outer;
-	}
+	
 
 	public View getSecondPage() {
 
