@@ -42,12 +42,11 @@ import com.ml.bigshow.ui.clippic.ClipPictureActivity;
 import com.ml.bigshow.view.ElasticScrollView;
 
 public class EditActivity extends BaseActivity {
-	
-	//Data Part
-	public Story story = new Story();
-	public Slot slot = new Slot();
-	public List<End> endList = new ArrayList<End>(); 
-	
+
+	// Data Part
+	public Story story;
+	public Slot slot;
+	public List<End> endList;
 
 	private ViewPager view_pager;
 	private List<View> mPagers;
@@ -62,68 +61,99 @@ public class EditActivity extends BaseActivity {
 	EditText contentTv;
 	ImageView contentIv;
 	EditText questionTv;
-	
-	public String order;
-	
+
+	public String page; // slot 的 page
+
 	boolean isStoryChanged = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit);
-		
-		
-		//如果存在，传入Story
+
+		// order是一定存在的
+		page = (String) getIntent().getStringExtra("page");
+		// 如果存在，传入Story
 		story = (Story) getIntent().getSerializableExtra("Story");
-		order = (String)getIntent().getStringExtra("order");
+
+		if(story!=null){
+			slot = story.slots().get(Integer.valueOf(page));
+			endList = slot.ends();
+		}else{
+			slot = new Slot();
+			endList = new ArrayList<End>();
+		}
 
 		initViews();
 		initData();
 	}
-	
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
-		
+
 		new LeanAsyncTask(mContext) {
 
 			@Override
 			protected void doInBack() throws Exception {
-				
-				if(story==null){
-					//新建Story
+
+				if (story == null) {
+					// 新建Story
+					story = new Story();
 					story.title = titleTv.getText().toString().trim();
 					story.cName = nameTv.getText().toString().trim();
-					story.cAvatar = ImageUtils.saveDrawable2Data(avatarIv.getDrawable());
-					//story.uid
-					//story.uName
-					//story.uAvatar
-					//story.status
-					//story.hotScore
+					story.cAvatar = ImageUtils.saveDrawable2Data(avatarIv
+							.getDrawable());
+					// story.uid
+					// story.uName
+					// story.uAvatar
+					story.status = "-1";
+					story.hotScore = "0";
+					story.save();
 				}
-				
-				if(isStoryChanged){
-					//更新Story
+
+				if (isStoryChanged) {
+					// 更新Story
+					story.title = titleTv.getText().toString().trim();
+					story.cName = nameTv.getText().toString().trim();
+					story.cAvatar = ImageUtils.saveDrawable2Data(avatarIv
+							.getDrawable());
+					// story.uid
+					// story.uName
+					// story.uAvatar
+					story.status = "-1";
+					story.save();
 				}
-				
-				//在这里面存数据
-				slot.order = order;
+
+				// 这里得测试一下，getMany()返回的值是多少
+				if (story.slots() != null) {
+					slot = story.slots().get(Integer.valueOf(page));
+				}
+				if (slot == null)
+					slot = new Slot();
+
+				// 在这里面存slot数据
+				slot.page = page;
 				slot.content = contentTv.getText().toString().trim();
-				//得到图片的路径
-				slot.photo = ImageUtils.saveDrawable2Data(contentIv.getDrawable());
-				slot.question =  questionTv.getText().toString().trim();
+				// 得到图片的路径
+				slot.photo = ImageUtils.saveDrawable2Data(contentIv
+						.getDrawable());
+				slot.question = questionTv.getText().toString().trim();
 				slot.fromStory = story;
-				slot.save();	
+				slot.save();
+
+				// 还有End数据
+				for (End end : endList) {
+					end.save();
+				}
 			}
 
 			@Override
 			protected void onPost(Exception e) {
-				
+
 			}
 		};
-		
-		
+
 	}
 
 	private void initViews() {
@@ -199,11 +229,12 @@ public class EditActivity extends BaseActivity {
 
 			}
 		});
-		
-		if(story!=null){
+
+		if (story != null) {
 			titleTv.setText(story.title);
 			nameTv.setText(story.cName);
 			PicassoService.setSquarePhoto(story.cAvatar, avatarIv);
+
 		}
 
 	}
@@ -304,8 +335,7 @@ public class EditActivity extends BaseActivity {
 		ScrollView scroll = new ScrollView(mContext);
 
 		RelativeLayout layout_outer = new RelativeLayout(mContext);
-		FrameLayout.LayoutParams out_lp = new FrameLayout.LayoutParams(
-				-1, -1);
+		FrameLayout.LayoutParams out_lp = new FrameLayout.LayoutParams(-1, -1);
 		out_lp.gravity = Gravity.CENTER;
 		layout_outer.setLayoutParams(out_lp);
 		layout_outer.setFocusable(true);
@@ -343,7 +373,7 @@ public class EditActivity extends BaseActivity {
 		// outlet
 		contentTv = tv_content;
 		contentIv = iv_story;
-		
+
 		scroll.addView(layout_outer);
 
 		return scroll;
@@ -356,14 +386,14 @@ public class EditActivity extends BaseActivity {
 	ViewGroup page3;
 
 	public View getThirdPage() {
-		
+
 		int id_1 = 32901;
 
 		RelativeLayout layout_outer = new RelativeLayout(mContext);
 		RelativeLayout.LayoutParams r_lp = new RelativeLayout.LayoutParams(-1,
 				-1);
 		layout_outer.setLayoutParams(r_lp);
-		
+
 		//
 		// bottomView
 		//
@@ -378,7 +408,7 @@ public class EditActivity extends BaseActivity {
 		footerBtn.setTextSize(20);
 		footerBtn.setTextColor(Color.WHITE);
 		footerBtn.setBackgroundColor(Color.RED);
-		
+
 		layout_outer.addView(footerBtn);
 
 		AbsListView.LayoutParams vg_lp = new AbsListView.LayoutParams(-1, -2);
