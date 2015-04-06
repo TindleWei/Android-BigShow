@@ -31,8 +31,8 @@ public class Slot extends Model implements Serializable {
 
 	// } AVOS特有的
 	
-	@Column(name = "order")
-	public String order;
+	@Column(name = "page")
+	public String page; //从0开始，可以用来当List下标
 
 	@Column(name = "content")
 	public String content;
