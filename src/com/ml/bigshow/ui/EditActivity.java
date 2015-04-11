@@ -26,7 +26,7 @@ import android.widget.ScrollView;
 
 import com.ml.bigshow.BaseActivity;
 import com.ml.bigshow.R;
-import com.ml.bigshow.cc.ViewHolder;
+import com.ml.bigshow.cd.ViewHolder;
 import com.ml.bigshow.entity.End;
 import com.ml.bigshow.entity.Slot;
 import com.ml.bigshow.entity.Story;
@@ -58,8 +58,8 @@ public class EditActivity extends BaseActivity {
 //	EditText titleTv;
 //	EditText nameTv;
 //	ImageView avatarIv;
-	EditText contentTv;
-	ImageView contentIv;
+//	EditText contentTv;
+//	ImageView contentIv;
 	EditText questionTv;
 
 	public String page; // slot 的 page
@@ -134,9 +134,9 @@ public class EditActivity extends BaseActivity {
 
 				// 在这里面存slot数据
 				slot.page = page;
-				slot.content = contentTv.getText().toString().trim();
+				slot.content = secondHolder.textView(0).getText().toString().trim();
 				// 得到图片的路径
-				slot.photo = ImageUtils.saveDrawable2Data(contentIv
+				slot.photo = ImageUtils.saveDrawable2Data(secondHolder.imageView(0)
 						.getDrawable());
 				slot.question = questionTv.getText().toString().trim();
 				slot.fromStory = story;
@@ -213,12 +213,12 @@ public class EditActivity extends BaseActivity {
 		thirdHolder = new ViewHolder();
 		
 		mPagers.add(EditViewHolder.getFirstPage(mContext, firstHolder));
-		mPagers.add(getSecondPage());
+		mPagers.add(EditViewHolder.getSecondPage(mContext, secondHolder));
 		mPagers.add(getThirdPage());
 
 		mPagerAdapter.notifyDataSetChanged();
 
-		contentIv.setOnClickListener(myClick);
+		secondHolder.imageView(0).setOnClickListener(myClick);
 
 		addBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -269,7 +269,7 @@ public class EditActivity extends BaseActivity {
 				if (bitmap == null) {
 					Log.e("11", "bitmap is NULL !");
 				} else {
-					contentIv.setImageBitmap(bitmap);
+					secondHolder.imageView(0).setImageBitmap(bitmap);
 				}
 				break;
 			}
@@ -279,56 +279,7 @@ public class EditActivity extends BaseActivity {
 
 	
 
-	public View getSecondPage() {
-
-		int id_1 = 32901;
-
-		ScrollView scroll = new ScrollView(mContext);
-
-		RelativeLayout layout_outer = new RelativeLayout(mContext);
-		FrameLayout.LayoutParams out_lp = new FrameLayout.LayoutParams(-1, -1);
-		out_lp.gravity = Gravity.CENTER;
-		layout_outer.setLayoutParams(out_lp);
-		layout_outer.setFocusable(true);
-		layout_outer.setFocusableInTouchMode(true);
-
-		RelativeLayout rlayout_2 = new RelativeLayout(mContext);
-		RelativeLayout.LayoutParams rl_lp2 = new RelativeLayout.LayoutParams(
-				-2, -2);
-		rl_lp2.addRule(RelativeLayout.CENTER_IN_PARENT);
-		rlayout_2.setPadding(0, 0, 0, dp2px(0));
-		rlayout_2.setLayoutParams(rl_lp2);
-		rlayout_2.setBackgroundColor(Color.YELLOW);
-
-		ImageView iv_story = new ImageView(mContext);
-		rl_lp2 = new RelativeLayout.LayoutParams(mWidth - dp2px(32), mWidth
-				- dp2px(32));
-		iv_story.setLayoutParams(rl_lp2);
-		iv_story.setId(id_1);
-		iv_story.setBackgroundColor(Color.GRAY);
-		rlayout_2.addView(iv_story);
-
-		EditText tv_content = new EditText(mContext);
-		rl_lp2 = new RelativeLayout.LayoutParams(-2, -2);
-		rl_lp2.setMargins(dp2px(16), 0, 0, 0);
-		rl_lp2.addRule(RelativeLayout.BELOW, iv_story.getId());
-
-		tv_content.setLayoutParams(rl_lp2);
-		tv_content.setHint("故事的内容");
-		tv_content.setMaxLines(5);
-		tv_content.setTextSize(dp2px(18));
-		layout_outer.addView(rlayout_2);
-
-		rlayout_2.addView(tv_content);
-
-		// outlet
-		contentTv = tv_content;
-		contentIv = iv_story;
-
-		scroll.addView(layout_outer);
-
-		return scroll;
-	}
+	
 
 	SelectionListAdapter selectionAdapter;
 	List<String> mData;
