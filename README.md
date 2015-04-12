@@ -1,5 +1,14 @@
 # Android-BigShow
 
+#使用全新的代码模式
+我称之为 Color&Code Design
+
+其中用到的设计模式有：
+1. 
+2. 
+
+
+
 #使用的第三方库
 + image-chooser-library
 
