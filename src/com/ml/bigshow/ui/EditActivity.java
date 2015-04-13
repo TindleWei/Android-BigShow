@@ -43,7 +43,7 @@ public class EditActivity extends BaseActivity {
 	
 	ViewHolder firstHolder;
 	ViewHolder secondHolder;
-	ListViewHolder thirdHolder;
+	ListViewHolder<String> thirdHolder;
 
 	// Data Part
 	public Story story;
@@ -63,14 +63,13 @@ public class EditActivity extends BaseActivity {
 //	ImageView avatarIv;
 //	EditText contentTv;
 //	ImageView contentIv;
-	EditText questionTv;
-	
+//	EditText questionTv;
 
 	SelectionListAdapter selectionAdapter;
 	List<String> mData;
-	ListView mListView;
-	Button addBtn;
-	ViewGroup page3;
+	
+//	ListView mListView;
+//	Button addBtn;
 
 	public String page; // slot 的 page
 
@@ -148,7 +147,7 @@ public class EditActivity extends BaseActivity {
 				// 得到图片的路径
 				slot.photo = ImageUtils.saveDrawable2Data(secondHolder.imageView(0)
 						.getDrawable());
-				slot.question = questionTv.getText().toString().trim();
+				slot.question = ((ViewHolder)(thirdHolder.header())).textView(0).getText().toString().trim();
 				slot.fromStory = story;
 				slot.save();
 
@@ -231,14 +230,14 @@ public class EditActivity extends BaseActivity {
 
 		secondHolder.imageView(0).setOnClickListener(myClick);
 
-		addBtn.setOnClickListener(new View.OnClickListener() {
+		thirdHolder.imageView(0).setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				if (mData.size() < 4) {
 					mData.add("1");
 					selectionAdapter = new SelectionListAdapter(mContext, mData);
-					mListView.setAdapter(selectionAdapter);
+					thirdHolder.listView().setAdapter(selectionAdapter);
 				}
 
 			}
