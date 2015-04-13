@@ -1,4 +1,4 @@
-package com.ml.bigshow.cd;
+package com.ml.cd.holder;
 
 import android.view.View;
 import android.widget.Button;
@@ -6,7 +6,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ViewHolder {
+public class ViewHolder extends BaseViewHolder{
 
 	private static final Object[] EMPTY = new Object[0];
 	
@@ -38,6 +38,10 @@ public class ViewHolder {
 
 	public void setParentView(View view) {
 		this.parentView = view;
+	}
+	
+	public View parentView(){
+		return parentView;
 	}
 
 	public void setImageViews(final Object[] items) {

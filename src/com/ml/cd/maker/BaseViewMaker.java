@@ -1,15 +1,15 @@
-package com.ml.bigshow.ui;
+package com.ml.cd.maker;
 
 import android.util.DisplayMetrics;
 
 import com.ml.bigshow.BaseApplication;
 
-public class BaseViewHolder {
+public class BaseViewMaker {
 	
 	static int mHeight;
 	static int mWidth;
 	
-	public BaseViewHolder(){
+	public BaseViewMaker(){
 		DisplayMetrics metric = BaseApplication.getInstance().getResources().getDisplayMetrics();
 		mHeight = metric.heightPixels;
 		mWidth = metric.widthPixels;

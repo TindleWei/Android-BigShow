@@ -1,28 +1,34 @@
-package com.ml.bigshow.ui;
+package com.ml.cd.maker;
+
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ml.bigshow.BaseApplication;
 import com.ml.bigshow.R;
-import com.ml.bigshow.cd.ViewHolder;
+import com.ml.bigshow.ui.adapter.SelectionListAdapter;
+import com.ml.cd.holder.ListViewHolder;
+import com.ml.cd.holder.ViewHolder;
 
-public class EditViewHolder extends BaseViewHolder{
-	
-	public EditViewHolder() {
+public class EditViewMaker extends BaseViewMaker {
+
+	public EditViewMaker() {
 		super();
 	}
-	
-	
+
 	public static View getFirstPage(Context mContext, ViewHolder viewHolder) {
 
 		int id_1 = 32901;
@@ -37,8 +43,8 @@ public class EditViewHolder extends BaseViewHolder{
 		outer.setFocusableInTouchMode(true);
 
 		RelativeLayout inner = new RelativeLayout(mContext);
-		RelativeLayout.LayoutParams inner_lp = new RelativeLayout.LayoutParams(-2,
-				-2);
+		RelativeLayout.LayoutParams inner_lp = new RelativeLayout.LayoutParams(
+				-2, -2);
 		inner_lp.addRule(RelativeLayout.CENTER_IN_PARENT);
 		inner.setPadding(0, 0, 0, dp2px(80));
 		inner.setLayoutParams(inner_lp);
@@ -69,19 +75,18 @@ public class EditViewHolder extends BaseViewHolder{
 		inner.addView(text2);
 
 		outer.addView(inner);
-		
-		////////////////////////////////
-		ImageView[] imageViews = {image1};
-		TextView[] textViews = {text1, text2};
-		
+
+		// //////////////////////////////
+		ImageView[] imageViews = { image1 };
+		TextView[] textViews = { text1, text2 };
+
 		viewHolder.setImageViews(imageViews);
 		viewHolder.setTextViews(textViews);
 		viewHolder.setParentView(outer);
-		
+
 		return outer;
 	}
-	
-	
+
 	public static View getSecondPage(Context mContext, ViewHolder viewHolder) {
 
 		int id_1 = 32901;
@@ -121,18 +126,97 @@ public class EditViewHolder extends BaseViewHolder{
 		text1.setMaxLines(5);
 		text1.setTextSize(dp2px(18));
 		inner.addView(text1);
-		
+
 		outer.addView(inner);
 		scroll.addView(outer);
 
-		////////////////////////////////
-		ImageView[] imageViews = {image1};
-		TextView[] textViews = {text1};
+		// //////////////////////////////
+		ImageView[] imageViews = { image1 };
+		TextView[] textViews = { text1 };
 
 		viewHolder.setImageViews(imageViews);
 		viewHolder.setTextViews(textViews);
 		viewHolder.setParentView(outer);
 
 		return scroll;
+	}
+
+	public static <T> View getThirdPage(Context mContext, ListViewHolder<T> viewHolder) {
+
+		int id_1 = 32901;
+
+		RelativeLayout layout_outer = new RelativeLayout(mContext);
+		RelativeLayout.LayoutParams r_lp = new RelativeLayout.LayoutParams(-1,
+				-1);
+		layout_outer.setLayoutParams(r_lp);
+
+		// bottom
+		Button footerBtn = new Button(mContext);
+		r_lp = new RelativeLayout.LayoutParams(-1, -2);
+		r_lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		footerBtn.setId(id_1);
+		footerBtn.setMinimumHeight(dp2px(60));
+		footerBtn.setPadding(dp2px(16), dp2px(8), dp2px(16), dp2px(8));
+		footerBtn.setLayoutParams(r_lp);
+		footerBtn.setText("+");
+		footerBtn.setTextSize(20);
+		footerBtn.setTextColor(Color.WHITE);
+		footerBtn.setBackgroundColor(Color.RED);
+
+		layout_outer.addView(footerBtn);
+
+		AbsListView.LayoutParams vg_lp = new AbsListView.LayoutParams(-1, -2);
+		//
+		// headerView
+		//
+		viewHolder.setHeader(new ViewHolder());
+
+		RelativeLayout header_outer = new RelativeLayout(mContext);
+		vg_lp = new AbsListView.LayoutParams(-1, -2);
+		header_outer.setMinimumHeight(dp2px(120));
+		header_outer.setPadding(dp2px(16), dp2px(8), dp2px(16), dp2px(8));
+		header_outer.setLayoutParams(vg_lp);
+
+		EditText header_text1 = new EditText(mContext);
+		r_lp = new RelativeLayout.LayoutParams(-2, -2);
+		r_lp.addRule(RelativeLayout.CENTER_VERTICAL);
+		header_text1.setHint("问题来了");
+		header_text1.setLayoutParams(r_lp);
+
+		header_outer.addView(header_text1);
+
+		ImageView[] header_imageViews = {};
+		TextView[] header_textViews = { header_text1 };
+
+		((ViewHolder) (viewHolder.header())).setImageViews(header_imageViews);
+		((ViewHolder) (viewHolder.header())).setTextViews(header_textViews);
+		((ViewHolder) (viewHolder.header())).setParentView(header_outer);
+
+		// //////////////////////////////
+
+		ListView mListView = new ListView(mContext);
+		r_lp = new RelativeLayout.LayoutParams(-1, -1);
+		r_lp.addRule(RelativeLayout.ABOVE, footerBtn.getId());
+		r_lp.setMargins(0, 0, 0, dp2px(16));
+		mListView.setLayoutParams(r_lp);
+		mListView.addHeaderView(header_outer);
+
+		mListView.setAdapter(viewHolder.adapter());
+
+		layout_outer.addView(mListView);
+
+		// //////////////////////////////
+		viewHolder.setListView(mListView);
+		viewHolder.setContainer(layout_outer);
+
+		// //////////////////////////////
+		ImageView[] imageViews = {};
+		TextView[] textViews = { footerBtn };
+
+		viewHolder.setImageViews(imageViews);
+		viewHolder.setTextViews(textViews);
+
+
+		return layout_outer;
 	}
 }

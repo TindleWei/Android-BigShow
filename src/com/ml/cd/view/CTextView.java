@@ -1,4 +1,4 @@
-package com.ml.bigshow.cd;
+package com.ml.cd.view;
 
 import com.ml.bigshow.BaseApplication;
 

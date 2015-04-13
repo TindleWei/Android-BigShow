@@ -26,7 +26,6 @@ import android.widget.ScrollView;
 
 import com.ml.bigshow.BaseActivity;
 import com.ml.bigshow.R;
-import com.ml.bigshow.cd.ViewHolder;
 import com.ml.bigshow.entity.End;
 import com.ml.bigshow.entity.Slot;
 import com.ml.bigshow.entity.Story;
@@ -35,12 +34,16 @@ import com.ml.bigshow.service.LeanAsyncTask;
 import com.ml.bigshow.service.PicassoService;
 import com.ml.bigshow.ui.adapter.SelectionListAdapter;
 import com.ml.bigshow.ui.clippic.ClipPictureActivity;
+import com.ml.cd.holder.BaseViewHolder;
+import com.ml.cd.holder.ListViewHolder;
+import com.ml.cd.holder.ViewHolder;
+import com.ml.cd.maker.EditViewMaker;
 
 public class EditActivity extends BaseActivity {
 	
 	ViewHolder firstHolder;
 	ViewHolder secondHolder;
-	ViewHolder thirdHolder;
+	ListViewHolder thirdHolder;
 
 	// Data Part
 	public Story story;
@@ -61,6 +64,13 @@ public class EditActivity extends BaseActivity {
 //	EditText contentTv;
 //	ImageView contentIv;
 	EditText questionTv;
+	
+
+	SelectionListAdapter selectionAdapter;
+	List<String> mData;
+	ListView mListView;
+	Button addBtn;
+	ViewGroup page3;
 
 	public String page; // slot 的 page
 
@@ -207,14 +217,15 @@ public class EditActivity extends BaseActivity {
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initData() {
 		firstHolder = new ViewHolder();
 		secondHolder = new ViewHolder();
-		thirdHolder = new ViewHolder();
+		thirdHolder = new ListViewHolder(selectionAdapter, mData);
 		
-		mPagers.add(EditViewHolder.getFirstPage(mContext, firstHolder));
-		mPagers.add(EditViewHolder.getSecondPage(mContext, secondHolder));
-		mPagers.add(getThirdPage());
+		mPagers.add(EditViewMaker.getFirstPage(mContext, firstHolder));
+		mPagers.add(EditViewMaker.getSecondPage(mContext, secondHolder));
+		mPagers.add(EditViewMaker.getThirdPage(mContext, thirdHolder));
 
 		mPagerAdapter.notifyDataSetChanged();
 
@@ -277,82 +288,6 @@ public class EditActivity extends BaseActivity {
 
 	};
 
-	
 
-	
 
-	SelectionListAdapter selectionAdapter;
-	List<String> mData;
-	ListView mListView;
-	Button addBtn;
-	ViewGroup page3;
-
-	public View getThirdPage() {
-
-		int id_1 = 32901;
-
-		RelativeLayout layout_outer = new RelativeLayout(mContext);
-		RelativeLayout.LayoutParams r_lp = new RelativeLayout.LayoutParams(-1,
-				-1);
-		layout_outer.setLayoutParams(r_lp);
-
-		//
-		// bottomView
-		//
-		Button footerBtn = new Button(mContext);
-		r_lp = new RelativeLayout.LayoutParams(-1, -2);
-		r_lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		footerBtn.setId(id_1);
-		footerBtn.setMinimumHeight(dp2px(60));
-		footerBtn.setPadding(dp2px(16), dp2px(8), dp2px(16), dp2px(8));
-		footerBtn.setLayoutParams(r_lp);
-		footerBtn.setText("+");
-		footerBtn.setTextSize(20);
-		footerBtn.setTextColor(Color.WHITE);
-		footerBtn.setBackgroundColor(Color.RED);
-
-		layout_outer.addView(footerBtn);
-
-		AbsListView.LayoutParams vg_lp = new AbsListView.LayoutParams(-1, -2);
-		//
-		// headerView
-		//
-		RelativeLayout headerLayout = new RelativeLayout(mContext);
-		vg_lp = new AbsListView.LayoutParams(-1, -2);
-		headerLayout.setMinimumHeight(dp2px(120));
-		headerLayout.setPadding(dp2px(16), dp2px(8), dp2px(16), dp2px(8));
-		headerLayout.setLayoutParams(vg_lp);
-
-		EditText et_question = new EditText(mContext);
-		r_lp = new RelativeLayout.LayoutParams(-2, -2);
-		r_lp.addRule(RelativeLayout.CENTER_VERTICAL);
-		et_question.setHint("问题来了");
-		et_question.setLayoutParams(r_lp);
-
-		headerLayout.addView(et_question);
-
-		mListView = new ListView(mContext);
-		r_lp = new RelativeLayout.LayoutParams(-1, -1);
-		r_lp.addRule(RelativeLayout.ABOVE, footerBtn.getId());
-		r_lp.setMargins(0, 0, 0, dp2px(16));
-		mListView.setLayoutParams(r_lp);
-		mListView.addHeaderView(headerLayout);
-
-		mData = new ArrayList<String>();
-		mData.add("0");
-		mData.add("1");
-		selectionAdapter = new SelectionListAdapter(mContext, mData);
-		mListView.setAdapter(selectionAdapter);
-
-		layout_outer.addView(mListView);
-
-		// outlet
-		addBtn = footerBtn;
-		page3 = layout_outer;
-
-		// scroll_view.requestLayout();
-		// scroll_view.postInvalidate();
-
-		return layout_outer;
-	}
 }
