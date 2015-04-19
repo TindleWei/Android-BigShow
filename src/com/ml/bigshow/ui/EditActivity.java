@@ -43,7 +43,7 @@ public class EditActivity extends BaseActivity {
 	
 	ViewHolder firstHolder;
 	ViewHolder secondHolder;
-	ListViewHolder<String> thirdHolder;
+	ListViewHolder<End> thirdHolder;
 
 	// Data Part
 	public Story story;
@@ -58,22 +58,16 @@ public class EditActivity extends BaseActivity {
 
 	private static final int INTENT_REQUEST_CODE_ALBUM = 21;
 
-//	EditText titleTv;
-//	EditText nameTv;
-//	ImageView avatarIv;
-//	EditText contentTv;
-//	ImageView contentIv;
-//	EditText questionTv;
-
 	SelectionListAdapter selectionAdapter;
-	List<String> mData;
-	
-//	ListView mListView;
-//	Button addBtn;
-
 	public String page; // slot 的 page
 
 	boolean isStoryChanged = false;
+	
+	/**
+	 * 如果为false， onPause总保存
+	 * 如果为true， 网络上传并本地保存
+	 */
+	boolean isStorySaved = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -220,23 +214,33 @@ public class EditActivity extends BaseActivity {
 	private void initData() {
 		firstHolder = new ViewHolder();
 		secondHolder = new ViewHolder();
-		thirdHolder = new ListViewHolder(selectionAdapter, mData);
 		
-		mPagers.add(EditViewMaker.getFirstPage(mContext, firstHolder));
-		mPagers.add(EditViewMaker.getSecondPage(mContext, secondHolder));
-		mPagers.add(EditViewMaker.getThirdPage(mContext, thirdHolder));
+		endList = new ArrayList<End>();
+		//添加两个
+		endList.add(new End());
+		endList.add(new End());
+		selectionAdapter = new SelectionListAdapter(mContext, endList);
+		thirdHolder = new ListViewHolder(selectionAdapter, endList);
+		
+		EditViewMaker viewMaker = new EditViewMaker();
+		
+		mPagers.add(viewMaker.getFirstPage(mContext, firstHolder));
+		mPagers.add(viewMaker.getSecondPage(mContext, secondHolder));
+		mPagers.add(viewMaker.getThirdPage(mContext, thirdHolder));
 
 		mPagerAdapter.notifyDataSetChanged();
+		selectionAdapter.notifyDataSetChanged();
 
 		secondHolder.imageView(0).setOnClickListener(myClick);
 
-		thirdHolder.imageView(0).setOnClickListener(new View.OnClickListener() {
+		thirdHolder.textView(0).setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (mData.size() < 4) {
-					mData.add("1");
-					selectionAdapter = new SelectionListAdapter(mContext, mData);
+				if (endList.size() < 4) {
+					Log.e("TAG","sdf");
+					endList.add(new End());
+					selectionAdapter = new SelectionListAdapter(mContext, endList);
 					thirdHolder.listView().setAdapter(selectionAdapter);
 				}
 

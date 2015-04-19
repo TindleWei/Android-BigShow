@@ -181,4 +181,5 @@ public abstract class SingleTypeAdapter<V> extends TypeAdapter {
 		update(position, convertView, getItem(position));
 		return convertView;
 	}
+
 }

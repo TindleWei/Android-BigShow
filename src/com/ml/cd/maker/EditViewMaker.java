@@ -29,7 +29,7 @@ public class EditViewMaker extends BaseViewMaker {
 		super();
 	}
 
-	public static View getFirstPage(Context mContext, ViewHolder viewHolder) {
+	public View getFirstPage(Context mContext, ViewHolder viewHolder) {
 
 		int id_1 = 32901;
 		int id_2 = 32902;
@@ -66,8 +66,7 @@ public class EditViewMaker extends BaseViewMaker {
 
 		EditText text2 = new EditText(mContext);
 		inner_lp = new RelativeLayout.LayoutParams(-2, -2);
-		inner_lp.addRule(RelativeLayout.ALIGN_BOTTOM, image1.getId());
-		inner_lp.addRule(RelativeLayout.RIGHT_OF, image1.getId());
+		inner_lp.addRule(RelativeLayout.BELOW, image1.getId());
 		text2.setHint("名字");
 		text2.setTextSize(dp2px(14));
 		inner_lp.setMargins(dp2px(16), 0, 0, 0);
@@ -87,7 +86,7 @@ public class EditViewMaker extends BaseViewMaker {
 		return outer;
 	}
 
-	public static View getSecondPage(Context mContext, ViewHolder viewHolder) {
+	public View getSecondPage(Context mContext, ViewHolder viewHolder) {
 
 		int id_1 = 32901;
 
@@ -141,7 +140,7 @@ public class EditViewMaker extends BaseViewMaker {
 		return scroll;
 	}
 
-	public static <T> View getThirdPage(Context mContext, ListViewHolder<T> viewHolder) {
+	public <T> View getThirdPage(Context mContext, ListViewHolder<T> viewHolder) {
 
 		int id_1 = 32901;
 

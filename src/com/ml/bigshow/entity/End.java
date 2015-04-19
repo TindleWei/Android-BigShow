@@ -42,7 +42,7 @@ public class End extends Model implements Serializable{
 	@Column(name = "formSlot")
 	public Story fromSlot;
 	
-	//0表示Story结束， -1表示Slot结束， 其他的值就是下一个Slot的objectId
+	//-1表示Story结束， 0表示Slot结束， 其他的值就是下一个Slot的objectId
 	@Column(name = "nextSlotId")
 	public String nextSlotId; 
 	
