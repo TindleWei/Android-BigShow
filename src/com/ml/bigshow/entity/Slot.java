@@ -31,17 +31,20 @@ public class Slot extends Model implements Serializable {
 
 	// } AVOS特有的
 	
-	@Column(name = "page")
-	public String page; //从0开始，可以用来当List下标
+	@Column(name = "pageOrder")
+	public int pageOrder; //从0开始，可以用来当List下标
 
-	@Column(name = "content")
-	public String content;
+	@Column(name = "slotContent")
+	public String slotContent;
 
-	@Column(name = "photo")
-	public String photo;
+	@Column(name = "slotPhoto")
+	public String slotPhoto;
 
-	@Column(name = "question")
+	@Column(name = "slotQuestion")
 	public String question;
+	
+	@Column(name = "isCompleted")
+	public String isCompleted;
 
 	@Column(name = "fromStory")
 	public Story fromStory;

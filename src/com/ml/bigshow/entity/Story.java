@@ -31,29 +31,29 @@ public class Story extends Model implements Serializable{
 
 	// } AVOS特有的
 	
-	@Column(name = "title")
-	public String title;
+	@Column(name = "storyTitle")
+	public String storyTitle;
 	
-	@Column(name = "cName")
-	public String cName; //character name
+	@Column(name = "storyName")
+	public String storyName; //character name
 	
-	@Column(name = "cAvatar")
-	public String cAvatar; //character avatar
+	@Column(name = "storyAvatar")
+	public String storyAvatar; //character avatar
 	
-	@Column(name = "uid")
-	public String uid; // user id
+	@Column(name = "userId")
+	public String userId; // user id
 	
-	@Column(name = "uName")
-	public String uName; // user name
+	@Column(name = "userName")
+	public String userName; // user name
 	
-	@Column(name = "uAvatar")
-	public String uAvatar; // user avatar;
+	@Column(name = "userAvatar")
+	public String userAvatar; // user avatar;
 	
-	@Column(name = "status") 
-	public String status; //-1未完成 0已经完成，未上传  1已上传
+	@Column(name = "isCompleted") 
+	public String isCompleted; //-1未完成 0已经完成，未上传  1已上传
 	
 	@Column(name = "hotScore")
-	public String hotScore;
+	public int hotScore;
 	
 	public List<Slot> slots(){
 		return getMany(Slot.class, "fromStory");

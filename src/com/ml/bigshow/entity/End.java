@@ -30,21 +30,24 @@ public class End extends Model implements Serializable{
 
 	// } AVOS特有的
 	
-	@Column(name = "title")
-	public String title;
+	@Column(name = "endContent")
+	public String endContent;
 	
-	@Column(name = "photo")
-	public String photo;
+	@Column(name = "endPhoto")
+	public String endPhoto;
 	
-	@Column(name = "content")
-	public String content;
+	@Column(name = "choosenContent")
+	public String choosenContent;
 	
 	@Column(name = "formSlot")
 	public Story fromSlot;
 	
+	@Column(name = "isCompleted")
+	public String isCompleted;
+	
 	//-1表示Story结束， 0表示Slot结束， 其他的值就是下一个Slot的objectId
-	@Column(name = "nextSlotId")
-	public String nextSlotId; 
+	@Column(name = "endNext")
+	public String endNext; 
 	
 	
 
